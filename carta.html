@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Para mi Nely 💖</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(270deg, #ffb6c1, #dda0dd, #ff69b4, #ba55d3);
+    background-size: 800% 800%;
+    animation: gradientShift 15s ease infinite;
+    font-family: "Poppins", sans-serif;
+    position: relative;
+  }
+
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 85%;
+    max-width: 400px;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(15px);
+    border-radius: 25px;
+    padding: 25px 30px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    border: 1px solid rgba(255,255,255,0.3);
+    z-index: 10;
+  }
+
+  .title {
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+
+  .msg {
+    font-size: 17px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  button {
+    margin: 5px;
+    padding: 10px 15px;
+    border-radius: 12px;
+    border: 0;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    cursor: pointer;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    font-size: 14px;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    background: rgba(255,255,255,0.35);
+    transform: scale(1.05);
+  }
+
+  .heart {
+    position: absolute;
+    color: #ffdde1;
+    font-size: 20px;
+    animation: floatUp 6s linear forwards;
+    pointer-events: none;
+    opacity: 0.8;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
+    50% { transform: translateY(-50vh) scale(1.2) rotate(180deg); opacity: 0.7; }
+    100% { transform: translateY(-120vh) scale(1) rotate(360deg); opacity: 0; }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- Música -->
+<audio id="bgMusic" loop preload="auto">
+  <source src="cartanely/capitan.mp3" type="audio/mpeg">
+</audio>
+<button id="musicBtn" style="position:fixed; bottom:16px; right:16px; z-index:1000;">🔊 Música: OFF</button>
+
+<!-- Tarjeta -->
+<div class="card">
+  <div class="title">Para mi Nely 💖</div>
+  <div class="msg" id="message">
+    Hola mi amor, yo sé que te hago enojar mucho pero tú me devolviste la capacidad de dar mi corazón sin miedo a naufragar jajsjs. Te amo Nely, no estés mal por favor, yo te amo, y si no te respondo es por esto.
+  </div>
+  <button onclick="showMessage1()">Apretame acá 🥺</button>
+  <button onclick="showMessage2()">Apretame acá 🥺</button>
+</div>
+
+<script>
+  // Corazones al hacer clic
+  document.addEventListener("click", e => {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.textContent = "💗";
+    heart.style.left = e.clientX + "px";
+    heart.style.top = e.clientY + "px";
+    heart.style.fontSize = (20 + Math.random()*20) + "px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(), 4000);
+  });
+
+  // Lluvia automática de corazones de fondo
+  function createFloatingHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.textContent = "💖";
+    heart.style.left = Math.random()*window.innerWidth + "px";
+    heart.style.fontSize = (15 + Math.random()*25) + "px";
+    heart.style.top = window.innerHeight + "px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(), 6000);
+  }
+
+  setInterval(createFloatingHeart, 500); // cada 0.5s aparece un corazón
+
+  // Música
+  const bgMusic = document.getElementById("bgMusic");
+  const musicBtn = document.getElementById("musicBtn");
+  let musicOn = false;
+  let userInteracted = false;
+
+  function enableMusic() {
+    if(!userInteracted){
+      userInteracted = true;
+      if(musicOn) bgMusic.play().catch(()=>{});
+    }
+  }
+  document.addEventListener("click", enableMusic);
+  document.addEventListener("touchstart", enableMusic);
+
+  musicBtn.addEventListener("click", e=>{
+    e.stopPropagation();
+    musicOn = !musicOn;
+    if(musicOn){
+      bgMusic.play().catch(()=>{});
+      musicBtn.textContent = "🔊 Música: ON";
+    } else {
+      bgMusic.pause();
+      musicBtn.textContent = "🔇 Música: OFF";
+    }
+  });
+
+  // Botones de mensajes
+  const msgDiv = document.getElementById("message");
+
+  function showMessage1() {
+    msgDiv.textContent = "Hola mi amor, yo sé que te hago enojar mucho pero tú me devolviste la capacidad de dar mi corazón sin miedo a naufragar jajsjs. Te amo Nely, no estés mal por favor, yo te amo, y si no te respondo es por esto.";
+  }
+
+  function showMessage2() {
+    msgDiv.textContent = "Y quiero que sepas que te amo demasiado, mi Nena. Nunca te olvides que quiero que seas mi esposa, ¿sí?? 🥺";
+  }
+</script>
+
+</body>
+</html>
